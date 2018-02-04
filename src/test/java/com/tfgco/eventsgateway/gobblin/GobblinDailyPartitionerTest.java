@@ -30,33 +30,14 @@ public class GobblinDailyPartitionerTest {
     public void partitionForRecord() throws Exception {
         GenericRecordBuilder genericRecordBuilder = new GenericRecordBuilder(Event.getClassSchema());
 
-        // This timestamp corresponds to 2015/01/01
+        // This timestamp corresponds to 2018/02/04
         genericRecordBuilder.set("id", "A72840BD-447D-4383-B11B-711C992887BC");
         genericRecordBuilder.set("name", "MyEvent");
-        genericRecordBuilder.set("serverTimestamp", 1420099200L);
+        genericRecordBuilder.set("serverTimestamp", 1517765613000L);
+        genericRecordBuilder.set("clientTimestamp", 1517765613000L);
         GenericRecord result = this.partitioner.partitionForRecord(genericRecordBuilder.build());
         String path = (String) result.get("partitionedPath");
-        assertEquals("daily/year=2015/month=01/day=01", path);
+        assertEquals("daily/year=2018/month=02/day=04", path);
 
     }
-
-    @Test
-    public void partitionForRecordJsonWithTimestamp() throws Exception {
-        byte[] json = "{\"test\":\"test\", \"timestamp\":1420099200}".getBytes();
-        GenericRecord result = this.partitioner.partitionForRecord(json);
-        String path = (String) result.get("partitionedPath");
-        assertEquals("daily/year=2015/month=01/day=01", path);
-
-    }
-
-    @Test
-    public void partitionForRecordJsonWithoutTimestamp() throws Exception {
-        byte[] json = "{\"test\":\"test\"}".getBytes();
-        DateTimeUtils.setCurrentMillisFixed(1420099200000L);
-        GenericRecord result = this.partitioner.partitionForRecord(json);
-        String path = (String) result.get("partitionedPath");
-        assertEquals("daily/year=2015/month=01/day=01", path);
-
-    }
-
 }

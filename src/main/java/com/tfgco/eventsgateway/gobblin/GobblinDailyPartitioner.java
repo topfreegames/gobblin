@@ -78,14 +78,7 @@ public class GobblinDailyPartitioner<D> implements WriterPartitioner<D> {
 
         StringBuilder sb = new StringBuilder();
         sb.append("daily");
-        if (!(record instanceof byte[])) {
-            bucket = new DateTime(getTimestamp(getRecordTimestamp((GenericRecord) record)));
-        } else {
-            JSONObject json = new JSONObject(new String((byte[])record));
-            if(json.has("timestamp")){
-                bucket = new DateTime(json.getLong("timestamp") * 1000);
-            }
-        }
+        bucket = new DateTime(getTimestamp(getRecordTimestamp((GenericRecord) record)));
         sb.append(bucket.toString(outputDateFormatter));
         partition.put(PARTITIONED_PATH, sb.toString());
         return partition;

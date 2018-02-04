@@ -38,6 +38,8 @@ public class GobblinBytesToAvroConverterTest {
         u.setName("MyEvent");
         u.setServerTimestamp(42L);
         u.setClientTimestamp(43L);
+        java.util.Map<CharSequence, CharSequence> props = new java.util.HashMap<CharSequence, CharSequence>();
+        u.setProps(props);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         org.apache.avro.io.Encoder binaryEncoder = encoderFactory.directBinaryEncoder(out, null);
         DatumWriter<Event> writer = new SpecificDatumWriter<>(u.getSchema());
