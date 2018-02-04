@@ -12,7 +12,6 @@ RUN apk add --update curl && \
   tar -xf gobblin-distribution-$RELEASE_VERSION.tar.gz && \
   rm gobblin-distribution-$RELEASE_VERSION.tar.gz && \
   curl -L http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.86/aws-java-sdk-1.11.86.jar > /opt/gobblin/gobblin-dist/lib/aws-java-sdk-1.11.86.jar && \
-  curl -L http://central.maven.org/maven2/com/tfgco/eventsgateway/1.0.0/eventsgateway-gobblin-1.0.0.jasr > /opt/gobblin/gobblin-dist/lib/eventsgateway-gobblin-1.0.0.jar && \
   curl -L http://central.maven.org/maven2/com/tfgco/avro/1.0.0/avro-1.0.0.jar > /opt/gobblin/gobblin-dist/lib/avro-1.0.0.jar && \
   apk del curl
 
