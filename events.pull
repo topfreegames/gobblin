@@ -2,7 +2,7 @@ job.name=events
 job.group=events
 job.description=events
 job.lock.enabled=true
-job.schedule=0 0 0/1 1/1 * ? *
+job.schedule=0 0/10 0/1 1/1 * ? *
 
 kafka.brokers=${env:KAFKA_BROKERS}
 kafka.workunit.packer.type=BI_LEVEL
