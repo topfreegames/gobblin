@@ -11,8 +11,8 @@ source.class=gobblin.source.extractor.extract.kafka.KafkaSimpleSource
 extract.namespace=gobblin.extract.kafka
 extract.limit.enabled=true
 extract.limit.type=time
-extract.limit.time.limit=120
-extract.limit.time.limit.timeunit=minutes
+extract.limit.timeLimit=120
+extract.limit.timeLimitTimeunit=minutes
 
 converter.classes=com.tfgco.eventsgateway.gobblin.GobblinBytesToAvroConverter
 
