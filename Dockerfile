@@ -6,9 +6,9 @@ WORKDIR /opt/gobblin/
 
 RUN apk add --update curl snappy maven && \
   rm -rf /var/cache/apk/* && \
-  curl -LO https://github.com/apache/incubator-gobblin/releases/download/gobblin_0.10.0/gobblin-distribution-0.10.0.tar.gz && \
-  tar -xf gobblin-distribution-0.10.0.tar.gz && \
-  rm gobblin-distribution-0.10.0.tar.gz && \
+  curl -LO https://github.com/topfreegames/incubator-gobblin/releases/download/gobblin_0.11.0/gobblin-distribution-0.11.0.tar.gz && \
+  tar -xf gobblin-distribution-0.11.0.tar.gz && \
+  rm gobblin-distribution-0.11.0.tar.gz && \
   curl -L http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.86/aws-java-sdk-1.11.86.jar > /opt/gobblin/gobblin-dist/lib/aws-java-sdk-1.11.86.jar && \
   curl -L http://central.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.6.0/hadoop-aws-2.6.0.jar > /opt/gobblin/gobblin-dist/lib/hadoop-aws-2.6.0.jar && \
   curl -L http://central.maven.org/maven2/com/tfgco/avro/1.0.0/avro-1.0.0.jar > /opt/gobblin/gobblin-dist/lib/avro-1.0.0.jar && \
