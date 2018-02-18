@@ -38,17 +38,22 @@
     <dependency>
       <groupId>com.linkedin.gobblin</groupId>
       <artifactId>gobblin-api</artifactId>
-      <version>0.8.0</version>
+      <version>0.11.0</version>
     </dependency>
     <dependency>
       <groupId>com.linkedin.gobblin</groupId>
       <artifactId>gobblin-core</artifactId>
-      <version>0.8.0</version>
+      <version>0.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.46</version>
     </dependency>
     <dependency>
       <groupId>com.tfgco</groupId>
       <artifactId>avro</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

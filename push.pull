@@ -1,8 +1,8 @@
-job.name=events
-job.group=events
-job.description=events
+job.name=pushes
+job.group=pushes
+job.description=pushes
 job.lock.enabled=true
-job.schedule=0 0/10 0/1 1/1 * ? *
+job.schedule=0 0/10 * * * *
 
 kafka.brokers=${env:KAFKA_BROKERS}
 kafka.workunit.packer.type=BI_LEVEL
@@ -14,7 +14,7 @@ extract.limit.type=time
 extract.limit.timeLimit=120
 extract.limit.timeLimitTimeunit=minutes
 
-converter.classes=com.tfgco.eventsgateway.gobblin.EventBytesToAvroConverter
+converter.classes=com.tfgco.push.gobblin.PushNotificationBytesToAvroConverter
 
 writer.partitioner.class=com.tfgco.eventsgateway.gobblin.GobblinDailyPartitioner
 writer.partition.pattern=YYYY/MM/dd
@@ -31,17 +31,9 @@ writer.include.partition.in.file.names=false
 
 mr.job.max.mappers=5
 
-topic.whitelist=sv-uploads-.*
+topic.whitelist=^push\-.*\-(gcm|apns)$
 data.publisher.type=gobblin.publisher.TimePartitionedDataPublisher
 
 metrics.reporting.file.enabled=true
 metrics.log.dir=${env:GOBBLIN_WORK_DIR}/metrics
 metrics.reporting.file.suffix=txt
-
-email.alert.enabled=true
-email.host=${env:EMAIL_HOST}
-email.smtp.port=25
-email.user=${env:EMAIL_USER}
-email.password=${env:EMAIL_PASSWORD}
-email.from=${env.EMAIL_FROM}
-email.tos=${env.EMAIL_TOS}

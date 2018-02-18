@@ -11,18 +11,17 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
-import java.util.LinkedList;
 
 
 /**
  * Created by cscatolini on 04/02/18.
  */
-public class GobblinBytesToAvroConverterTest {
-    private GobblinBytesToAvroConverter subject;
+public class EventBytesToAvroConverterTest {
+    private EventBytesToAvroConverter subject;
     private final EncoderFactory encoderFactory = EncoderFactory.get();
     @Before
     public void setUp() throws Exception {
-        subject = new GobblinBytesToAvroConverter();
+        subject = new EventBytesToAvroConverter();
     }
 
     @org.junit.Test

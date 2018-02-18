@@ -1,6 +1,7 @@
 package com.tfgco.eventsgateway.gobblin;
 
 import com.tfgco.eventsgateway.Event;
+import com.tfgco.pushnotification.PushNotification;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericRecordBuilder;
 import org.joda.time.DateTimeUtils;
@@ -10,6 +11,8 @@ import gobblin.configuration.State;
 
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -39,5 +42,19 @@ public class GobblinDailyPartitionerTest {
         String path = (String) result.get("partitionedPath");
         assertEquals("daily/year=2018/month=02/day=04", path);
 
+    }
+
+    @Test
+    public void partitionForPushRecord() throws Exception {
+        GenericRecordBuilder genericRecordBuilder = new GenericRecordBuilder(PushNotification.getClassSchema());
+
+        HashMap<String, String> metadata = new HashMap<>();
+        metadata.put("pushTime", String.valueOf(1517765613));
+        genericRecordBuilder.set("token", "sometoken");
+        genericRecordBuilder.set("metadata", metadata);
+
+        GenericRecord result = this.partitioner.partitionForRecord(genericRecordBuilder.build());
+        String path = (String) result.get("partitionedPath");
+        assertEquals("daily/year=2018/month=02/day=04", path);
     }
 }

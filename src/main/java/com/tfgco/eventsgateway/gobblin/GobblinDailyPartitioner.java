@@ -16,6 +16,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * Created by cscatolini on 04/02/18.
  */
@@ -55,6 +57,14 @@ public class GobblinDailyPartitioner<D> implements WriterPartitioner<D> {
         if (fieldValue.isPresent()) {
             return fieldValue;
         }
+        fieldValue = AvroUtils.getFieldValue(record, "metadata");
+        if (fieldValue.isPresent()) {
+            HashMap<String, String> m = (HashMap<String, String>) fieldValue.get();
+            if (m.containsKey("pushTime")){
+                // PushNotification is sending pushTime as seconds
+                return Optional.of(Long.parseLong(m.get("pushTime")) * 1000);
+            }
+        }
         return Optional.absent();
     }
 
@@ -64,9 +74,7 @@ public class GobblinDailyPartitioner<D> implements WriterPartitioner<D> {
 
     @Override
     public GenericRecord partitionForRecord(D record) {
-        DateTime bucket = new DateTime();
         GenericRecord partition = new GenericData.Record(this.schema);
-        // We only need to initialize outputDateFormatter with the default timeZone once.
         if (outputDateFormatter == null) {
             outputDateFormatter = new DateTimeFormatterBuilder()
                     .appendLiteral("/year=").appendYear(4,4)
@@ -75,10 +83,9 @@ public class GobblinDailyPartitioner<D> implements WriterPartitioner<D> {
                     .toFormatter().withZone(DateTimeZone.forID(this.timeZone.toString()));
         }
 
-
         StringBuilder sb = new StringBuilder();
         sb.append("daily");
-        bucket = new DateTime(getTimestamp(getRecordTimestamp((GenericRecord) record)));
+        DateTime bucket = new DateTime(getTimestamp(getRecordTimestamp((GenericRecord) record)));
         sb.append(bucket.toString(outputDateFormatter));
         partition.put(PARTITIONED_PATH, sb.toString());
         return partition;

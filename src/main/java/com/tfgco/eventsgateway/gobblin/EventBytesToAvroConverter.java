@@ -20,11 +20,11 @@ import java.io.IOException;
 /**
  * Created by cscatolini on 04/02/18.
  */
-public class GobblinBytesToAvroConverter extends ToAvroConverterBase<String, byte[]> {
+public class EventBytesToAvroConverter extends ToAvroConverterBase<String, byte[]> {
     private GenericDatumReader<GenericData.Record> _datumReader;
-    private static final Logger log = LoggerFactory.getLogger(GobblinBytesToAvroConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(EventBytesToAvroConverter.class);
 
-    public GobblinBytesToAvroConverter() {
+    public EventBytesToAvroConverter() {
         _datumReader = new GenericDatumReader<>();
     }
 
