@@ -16,7 +16,7 @@ RUN apk add --update curl snappy maven && \
 RUN mkdir source
 COPY . source
 WORKDIR source
-RUN mvn -T 4 -Dmaven.test.skip=true assembly:single && cp ./target/*.jar /opt/gobblin/gobblin-dist/lib/ && cd .. && rm -rf source
+RUN mvn -T 4 -Dmaven.test.skip=true clean assembly:single && cp ./target/*.jar /opt/gobblin/gobblin-dist/lib/ && cd .. && rm -rf source
 RUN mkdir -p /etc/opt/job-conf
 RUN mkdir -p /home/gobblin/work-dir
 
