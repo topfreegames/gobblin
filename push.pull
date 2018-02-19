@@ -2,7 +2,7 @@ job.name=pushes
 job.group=pushes
 job.description=pushes
 job.lock.enabled=true
-job.schedule=0 0/10 * * * *
+job.schedule=0 0/10 * * * ?
 
 kafka.brokers=${env:KAFKA_BROKERS}
 kafka.workunit.packer.type=BI_LEVEL

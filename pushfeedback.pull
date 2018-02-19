@@ -2,7 +2,7 @@ job.name=pushefeedbacks
 job.group=pushfeedbacks
 job.description=pushfeedbacks
 job.lock.enabled=true
-job.schedule=0 30 * * * *
+job.schedule=0 30 * * * ?
 
 kafka.brokers=${env:KAFKA_BROKERS}
 kafka.workunit.packer.type=BI_LEVEL

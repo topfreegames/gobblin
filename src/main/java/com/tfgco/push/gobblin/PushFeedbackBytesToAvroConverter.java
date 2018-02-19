@@ -55,15 +55,11 @@ public class PushFeedbackBytesToAvroConverter extends ToAvroConverterBase<String
             if (js.containsKey("Sent")){
                 boolean sent = js.getBooleanValue("Sent");
                 pushFeedback.put("sent", sent);
-                if(!sent){
-                    pushFeedback.put("reason", js.getString("Reason"));
-                }
+                pushFeedback.put("reason", String.valueOf(js.getOrDefault("Reason","")));
             } else {
                 boolean sent = js.getString("message_type").equals("ack") ? true : false;
                 pushFeedback.put("sent", sent);
-                if (!sent){
-                    pushFeedback.put("reason", js.getString("error"));
-                }
+                pushFeedback.put("reason", String.valueOf(js.getOrDefault("error","")));
             }
 
             return new SingleRecordIterable<>(pushFeedback);

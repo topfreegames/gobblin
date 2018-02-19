@@ -41,7 +41,7 @@ public class PushFeedbackBytesToAvroConverterTest {
         assertEquals(((HashMap<String, String>)record.get("metadata")).get("userId"), "A6A574C1-4C92-40B8-9121-9946DE5B2CA5");
         assertEquals(record.get("timestamp"), 1519056261L);
         assertEquals(record.get("sent"), true);
-        assertEquals(record.get("reason"), null);
+        assertEquals(record.get("reason"), "");
     }
 
     @org.junit.Test
@@ -71,7 +71,7 @@ public class PushFeedbackBytesToAvroConverterTest {
         assertEquals(((HashMap<String, String>)record.get("metadata")).get("userId"), "974AE08E-C6E7-4755-9399-9FD66D5EC9C2");
         assertEquals(record.get("timestamp"), 1519056196L);
         assertEquals(record.get("sent"), true);
-        assertEquals(record.get("reason"), null);
+        assertEquals(record.get("reason"), "");
     }
 
     @org.junit.Test
