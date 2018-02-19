@@ -9,6 +9,7 @@ import gobblin.converter.SchemaConversionException;
 import gobblin.converter.SingleRecordIterable;
 import gobblin.converter.ToAvroConverterBase;
 import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.commons.lang.SerializationException;
 import org.slf4j.Logger;
@@ -32,16 +33,16 @@ public class PushNotificationBytesToAvroConverter extends ToAvroConverterBase<St
     public Iterable<GenericRecord> convertRecord(Schema schema, byte[] bytes, WorkUnitState workUnitState) throws DataConversionException {
         try {
             JSONObject js = JSON.parseObject(new String(bytes));
-            PushNotification pushNotification = new PushNotification();
+            GenericRecord pushNotification = new GenericData.Record(schema);
 
             if (js.containsKey("to")){
-                pushNotification.setToken(js.getString("to"));
+                pushNotification.put("token",js.getString("to"));
             } else {
-                pushNotification.setToken(js.getString("DeviceToken"));
+                pushNotification.put("token",js.getString("DeviceToken"));
             }
 
-            pushNotification.setDryRun(js.getBooleanValue("dry_run"));
-            pushNotification.setPushExpiry(js.getLongValue("push_expiry"));
+            pushNotification.put("dry_run", (js.getBooleanValue("dry_run")));
+            pushNotification.put("push_expiry", (js.getLongValue("push_expiry")));
             Map<String, Object> data;
             if (js.containsKey("data")){
                 data = js.getJSONObject("data").getInnerMap();
@@ -49,16 +50,20 @@ public class PushNotificationBytesToAvroConverter extends ToAvroConverterBase<St
                 data = js.getJSONObject("Payload").getJSONObject("aps").getInnerMap();
             }
 
-            pushNotification.setData(new HashMap<>());
+            HashMap<String, String> pushNotificationData = new HashMap<>();
             for (String key : data.keySet()){
-                pushNotification.getData().put(key, String.valueOf(data.get(key)));
+                pushNotificationData.put(key, String.valueOf(data.get(key)));
             }
 
-            pushNotification.setMetadata(new HashMap<>());
+            pushNotification.put("data", pushNotificationData);
+
+            HashMap<String, String> pushNotificationMetadata = new HashMap<>();
             Map<String, Object> metadata = js.getJSONObject("metadata").getInnerMap();
             for (String key: metadata.keySet()){
-                pushNotification.getMetadata().put(key, String.valueOf(metadata.get(key)));
+                pushNotificationMetadata.put(key, String.valueOf(metadata.get(key)));
             }
+
+            pushNotification.put("metadata", pushNotificationMetadata);
 
             return new SingleRecordIterable<>(pushNotification);
         } catch (Exception e) {
