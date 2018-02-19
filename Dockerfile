@@ -16,7 +16,7 @@ RUN apk add --update curl snappy maven && \
 RUN mkdir source
 COPY . source
 WORKDIR source
-RUN mvn -T 4 -Dmaven.test.skip=true clean assembly:single && cp ./target/*.jar /opt/gobblin/gobblin-dist/lib/ && cd .. && rm -rf source
+RUN mvn -T 4 -Dmaven.test.skip=true clean compile assembly:single && cp ./target/*.jar /opt/gobblin/gobblin-dist/lib/ && cd .. && rm -rf source
 RUN mkdir -p /etc/opt/job-conf
 RUN mkdir -p /home/gobblin/work-dir
 
@@ -32,5 +32,6 @@ ADD log4j-config.xml /home/gobblin/log4j-config.xml
 COPY gobblin-standalone.properties /opt/gobblin/gobblin-dist/conf/gobblin-standalone.properties
 COPY events.pull /etc/opt/job-conf/events.pull
 COPY push.pull /etc/opt/job-conf/push.pull
+COPY pushfeedback.pull /etc/opt/job-conf/pushfeedback.pull
 
 CMD ["java", "-cp", "/opt/gobblin/gobblin-dist/lib/*", "-Dlog4j.configuration=file:/home/gobblin/log4j-config.xml", "-Dgobblin.logs.dir=/var/log/gobblin", "-Dorg.quartz.properties=/opt/gobblin/gobblin-dist/conf/quartz.properties", "gobblin.scheduler.SchedulerDaemon", "/opt/gobblin/gobblin-dist/conf/gobblin-standalone.properties"]

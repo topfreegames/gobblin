@@ -1,8 +1,8 @@
-job.name=pushes
-job.group=pushes
-job.description=pushes
+job.name=pushefeedbacks
+job.group=pushfeedbacks
+job.description=pushfeedbacks
 job.lock.enabled=true
-job.schedule=0 0/10 * * * *
+job.schedule=0 30 * * * *
 
 kafka.brokers=${env:KAFKA_BROKERS}
 kafka.workunit.packer.type=BI_LEVEL
@@ -14,7 +14,7 @@ extract.limit.type=time
 extract.limit.timeLimit=120
 extract.limit.timeLimitTimeunit=minutes
 
-converter.classes=com.tfgco.push.gobblin.PushNotificationBytesToAvroConverter
+converter.classes=com.tfgco.push.gobblin.PushFeedbackBytesToAvroConverter
 
 writer.partitioner.class=com.tfgco.eventsgateway.gobblin.GobblinDailyPartitioner
 writer.partition.pattern=YYYY/MM/dd
@@ -31,7 +31,7 @@ writer.include.partition.in.file.names=false
 
 mr.job.max.mappers=5
 
-topic.whitelist=^push-.*-(single|massive)$
+topic.whitelist=^push-.*-feedbacks$
 data.publisher.type=gobblin.publisher.TimePartitionedDataPublisher
 
 metrics.reporting.file.enabled=true

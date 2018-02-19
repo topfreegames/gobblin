@@ -53,10 +53,21 @@ public class GobblinDailyPartitioner<D> implements WriterPartitioner<D> {
 
 
     private Optional<Object> getRecordTimestamp(GenericRecord record) {
+        // EventsGateway
         Optional<Object> fieldValue = AvroUtils.getFieldValue(record, "serverTimestamp");
         if (fieldValue.isPresent()) {
             return fieldValue;
         }
+
+        //PushFeedback
+        fieldValue = AvroUtils.getFieldValue(record, "timestamp");
+        if (fieldValue.isPresent()){
+            Long ts = (Long) fieldValue.get();
+            // PushFeedback is senting timestamp as seconds
+            return Optional.of(ts * 1000);
+        }
+
+        //PushNotification
         fieldValue = AvroUtils.getFieldValue(record, "metadata");
         if (fieldValue.isPresent()) {
             HashMap<String, String> m = (HashMap<String, String>) fieldValue.get();
