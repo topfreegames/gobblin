@@ -11,13 +11,12 @@ RUN apk add --update curl snappy maven && \
   rm gobblin-distribution-0.11.0.tar.gz && \
   curl -L http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.86/aws-java-sdk-1.11.86.jar > /opt/gobblin/gobblin-dist/lib/aws-java-sdk-1.11.86.jar && \
   curl -L http://central.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.6.0/hadoop-aws-2.6.0.jar > /opt/gobblin/gobblin-dist/lib/hadoop-aws-2.6.0.jar && \
-  curl -L http://central.maven.org/maven2/com/tfgco/avro/1.1.1/avro-1.1.1.jar > /opt/gobblin/gobblin-dist/lib/avro-1.1.1.jar && \
   apk del curl
 
 RUN mkdir source
 COPY . source
 WORKDIR source
-RUN mvn -T 4 -Dmaven.test.skip=true package && cp ./target/*.jar /opt/gobblin/gobblin-dist/lib/ && cd .. && rm -rf source
+RUN mvn -T 4 -Dmaven.test.skip=true assembly:single && cp ./target/*.jar /opt/gobblin/gobblin-dist/lib/ && cd .. && rm -rf source
 RUN mkdir -p /etc/opt/job-conf
 RUN mkdir -p /home/gobblin/work-dir
 
